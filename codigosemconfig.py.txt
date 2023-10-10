@@ -1,0 +1,157 @@
+import re
+
+# Dicionário para mapear números para animais
+numero_para_animal = {
+    1: "Avestruz",
+    2: "Águia",
+    3: "Burro",
+    4: "Borboleta",
+    5: "Cachorro",
+    6: "Cabra",
+    7: "Carneiro",
+    8: "Camelo",
+    9: "Cobra",
+    10: "Coelho",
+    11: "Cavalo",
+    12: "Elefante",
+    13: "Galo",
+    14: "Gato",
+    15: "Jacaré",
+    16: "Leão",
+    17: "Macaco",
+    18: "Porco",
+    19: "Pavão",
+    20: "Perú",
+    21: "Touro",
+    22: "Tigre",
+    23: "Urso",
+    24: "Veado",
+    25: "Vaca",
+}
+
+# Dicionário para armazenar informações das pessoas
+pessoas = {}
+
+# Mensagem base
+mensagem_base = """
+BOLADA DA LOOK
+
+Pix 📲 16992407850 (CELULAR)
+Nome 👉🏼  VANUSA B SILVA
+
+BANCO SICOB
+
+Seu prêmio?
+- 20 vezes mais que o valor apostado🤑🤑🤑🤑
+
+EXEMPLO DE GANHOS: 👇🏻
+
+$     3 GANHA 60
+$     4 GANHA 80
+$     5 GANHA 100
+$     6 GANHA 120
+$     7 GANHA 140
+$     8 GANHA 160
+$     9 GANHA 180
+$   10 GANHA 200
+$   15 GANHA 300
+$   20 GANHA 400
+$   25 GANHA 500
+$   30 GANHA 600
+$   50 GANHA 1000
+$ 100 GANHA 2000
+
+🚨 Boa sorte 😘 🚨
+
+⚠ RESULTADOS ANTERIORES
+
+07:20⏰- 🐄
+09:20⏰- 🐇
+11:20⏰- 🦁
+14:20⏰- 🦌
+16:20⏰- 🐐
+18:20⏰- 
+21:20⏰- 
+23:20⏰-
+
+🍀🍀🍀🍀🥳🥳🥳🥳
+
+Apostas mínima R$3,00
+
+"""
+
+# Função para atualizar a mensagem com os dados do dicionário
+def atualizar_mensagem():
+    mensagem = mensagem_base
+    for numero_animal, animal in numero_para_animal.items():
+        if animal in pessoas:
+            mensagem += f"{numero_animal} {animal}\n"
+            for nome, valor, status in pessoas[animal]:
+                emoji_status = "✅" if status else "❌"
+                mensagem += f"{emoji_status} {nome}, R${valor}\n"
+    return mensagem
+
+# Função para receber e processar a mensagem do usuário
+def receber_mensagem():
+    nome = input("Digite o nome da pessoa: ")
+    entrada_animal = input("Digite o nome do animal ou o número correspondente: ")
+    
+    # Verifica se o usuário digitou um número e encontra o nome correspondente
+    try:
+        numero_animal = int(entrada_animal)
+        if numero_animal < 1 or numero_animal > 25:
+            print("Número de animal fora do intervalo válido.")
+            return None, None, None
+        animal = numero_para_animal.get(numero_animal)
+        if animal is None:
+            print("Número de animal não corresponde a nenhum animal na lista.")
+            return None, None, None
+    except ValueError:
+        animal = entrada_animal
+
+    valor = float(input("Digite o valor da aposta em reais: "))
+    status = input("Digite o status (Sim/Não): ").strip().lower() == "sim"
+    return nome, animal, valor, status
+
+# Função para adicionar uma aposta com nome, animal, valor e status
+def adicionar_aposta():
+    nome, animal, valor, status = receber_mensagem()
+    if nome is not None:
+        if animal not in pessoas:
+            pessoas[animal] = []
+        pessoas[animal].append((nome, valor, status))
+        print("Aposta adicionada com sucesso.")
+    return nome
+
+# Função para alterar o status de uma pessoa
+def alterar_status():
+    nome = input("Digite o nome da pessoa cujo status deseja alterar: ")
+    for animal in pessoas:
+        for i, (nome_pessoa, _, status) in enumerate(pessoas[animal]):
+            if nome_pessoa == nome:
+                novo_status = input("Digite o novo status (Sim/Não): ").strip().lower() == "sim"
+                pessoas[animal][i] = (nome_pessoa, pessoas[animal][i][1], novo_status)
+                print("Status alterado com sucesso.")
+                return
+    print(f"Pessoa com o nome {nome} não encontrada.")
+
+# Exemplo de uso
+while True:
+    print("Escolha uma opção:")
+    print("1. Adicionar Aposta")
+    print("2. Alterar Status")
+    print("3. Sair")
+    opcao = input("Digite o número da opção desejada: ").strip()
+    
+    if opcao == "1":
+        nome = adicionar_aposta()
+        mensagem_atualizada = atualizar_mensagem()
+        print(mensagem_atualizada)
+    elif opcao == "2":
+        alterar_status()
+        mensagem_atualizada = atualizar_mensagem()
+        print(mensagem_atualizada)
+    elif opcao == "3":
+        break
+    else:
+        print("Opção inválida. Escolha uma opção válida.")
