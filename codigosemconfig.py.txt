@@ -36,11 +36,6 @@ pessoas = {}
 mensagem_base = """
 BOLADA DA LOOK
 
-Pix 📲 16992407850 (CELULAR)
-Nome 👉🏼  VANUSA B SILVA
-
-BANCO SICOB
-
 Seu prêmio?
 - 20 vezes mais que o valor apostado🤑🤑🤑🤑
 
