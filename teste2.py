@@ -52,11 +52,7 @@ mensagem_sucesso = "Aposta de {} em {} no valor de R${} registrada com sucesso."
 
 @bot.message_handler(commands=["iniciar"])
 def iniciar(mensagem):
-    texto = "BOLADA DA LOOK\n\n" \
-            "Pix 📲 16992407850 (CELULAR)\n" \
-            "Nome 👉🏼  VANUSA B SILVA\n\n" \
-            "BANCO SICOB\n\n" \
-            "Seu prêmio?\n" \
+    texto = "Seu prêmio?\n" \
             "- 20 vezes mais que o valor apostado🤑🤑🤑🤑\n\n" \
             "EXEMPLO DE GANHOS: 👇🏻\n" \
             "$     3 GANHA 60\n" \
